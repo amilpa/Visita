@@ -50,7 +50,6 @@ class _SocialPageState extends State<SocialPage> {
     setState(() {
       postsList = posts["posts"];
     });
-    print(postsList);
   }
 
   @override

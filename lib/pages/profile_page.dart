@@ -1,11 +1,17 @@
+import 'dart:convert';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
-import 'package:visita/data/me_post_json.dart';
 import 'package:visita/theme/colors.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  Function setMetaAddress;
+  ProfilePage({Key? key, required this.setMetaAddress}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -14,13 +20,82 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool isPhoto = true;
 
+  var _session, _uri;
+
+  var connector = WalletConnect(
+      bridge: 'https://bridge.walletconnect.org',
+      clientMeta: const PeerMeta(
+          name: 'Visita',
+          description: 'App to upload NFT travel pictures',
+          url: 'https://walletconnect.org',
+          icons: [
+            'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
+          ]));
+
+  loginUsingMetamask(BuildContext context) async {
+    if (!connector.connected) {
+      try {
+        var session = await connector.createSession(onDisplayUri: (uri) async {
+          _uri = uri;
+          await launchUrlString(uri, mode: LaunchMode.externalApplication);
+        });
+        print(session.accounts[0]);
+        widget.setMetaAddress(session.accounts[0]);
+        print(session.chainId);
+        setState(() {
+          _session = session;
+        });
+      } catch (exp) {
+        print(exp);
+      }
+    } else {
+      connector.killSession();
+      connector.close();
+      setState(() {
+        _session = null;
+      });
+    }
+  }
+
+  var mePostList;
+
   @override
   void initState() {
     super.initState();
+    getPosts();
+  }
+
+  getPosts() async {
+    User? firebaseUser = FirebaseAuth.instance.currentUser;
+    var response = await http.get(Uri.parse(
+        "http://192.168.137.1:4567/api/v1/posts/${firebaseUser?.uid}"));
+    setState(() {
+      mePostList = jsonDecode(response.body)["posts"];
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    connector.on(
+        'connect',
+        (session) => setState(
+              () {
+                _session = _session;
+              },
+            ));
+    connector.on('session_update', (SessionStatus payload) {
+      print(payload.accounts[0]);
+      print(payload.chainId);
+      setState(() {
+        _session = payload;
+      });
+    });
+    connector.on(
+        'disconnect',
+        (payload) => setState(() {
+              _session = null;
+            }));
+
     return Scaffold(
       backgroundColor: white,
 
@@ -52,9 +127,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget getAppBar() {
+    User? firebaseUser = FirebaseAuth.instance.currentUser;
     return Container(
         padding: EdgeInsets.all(20),
-        color: Theme.of(context).primaryColor,
+        color: Color.fromARGB(255, 245, 246, 246),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -72,8 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         image: DecorationImage(
-                            image: NetworkImage(
-                                "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"),
+                            image: NetworkImage("${firebaseUser!.photoURL}"),
                             fit: BoxFit.cover)),
                   ),
                 ),
@@ -82,15 +157,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 10,
               ),
               Text(
-                "Anish Pillai",
+                "${firebaseUser.displayName}",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 10,
-              ),
-              Text(
-                "@anishpillai",
-                style: TextStyle(fontSize: 15),
               ),
             ],
           ),
@@ -106,72 +177,18 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(
             height: 40,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    "Posts",
-                    style: TextStyle(fontSize: 15, color: black),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    "4",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Text(
-                    "Followers",
-                    style: TextStyle(fontSize: 15, color: black),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    "0",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Text(
-                    "Follow",
-                    style: TextStyle(fontSize: 15, color: black),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    "0",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              )
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          SizedBox(
-            height: 30,
-          ),
 
           //Connect With Metamask Button
           Padding(
             padding: const EdgeInsets.only(right: 40.0, left: 40.0, bottom: 20),
             child: ElevatedButton.icon(
-              label: const Text(
-                'Connect Metamask',
+              label: Text(
+                connector.connected
+                    ? 'Disconnect Metamask'
+                    : 'Connect Metamask',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
@@ -184,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 fixedSize:
                     Size.fromWidth(MediaQuery.of(context).size.width / 1.5),
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                backgroundColor: Color.fromARGB(255, 129, 185, 231),
+                backgroundColor: Colors.blue,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
                   side: const BorderSide(
@@ -192,7 +209,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                print("Connecting Metamask");
+                loginUsingMetamask(context);
+              },
             ),
           ),
 
@@ -204,21 +224,26 @@ class _ProfilePageState extends State<ProfilePage> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
-          Wrap(
-            spacing: 15,
-            runSpacing: 15,
-            children: List.generate(mePostList.length, (index) {
-              return Container(
-                width: (size.width - 60) / 2,
-                height: (size.width - 60) / 2,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                        image: NetworkImage(mePostList[index]),
-                        fit: BoxFit.cover)),
-              );
-            }),
-          )
+          mePostList == null
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Wrap(
+                  spacing: 15,
+                  runSpacing: 15,
+                  children: List.generate(mePostList.length, (index) {
+                    return Container(
+                      width: (size.width - 60) / 2,
+                      height: (size.width - 60) / 2,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  mePostList[index]["imageURL"].toString()),
+                              fit: BoxFit.cover)),
+                    );
+                  }),
+                )
         ],
       ),
     );

@@ -32,6 +32,13 @@ class RootApp extends StatefulWidget {
 
 class _RootAppState extends State<RootApp> {
   late User user;
+  String? metaMaskaddress;
+
+  setMetaAddress(String meta) {
+    setState(() {
+      metaMaskaddress = meta;
+    });
+  }
 
   @override
   void initState() {
@@ -60,14 +67,14 @@ class _RootAppState extends State<RootApp> {
   Widget getBody() {
     return IndexedStack(
       index: activeTab,
-      children: const [
+      children: [
         HomePage(),
         SocialPage(),
         Center(
           child: Text("Upload"),
         ),
         GetHost(),
-        ProfilePage()
+        ProfilePage(setMetaAddress: setMetaAddress),
       ],
     );
   }
@@ -166,8 +173,10 @@ class _RootAppState extends State<RootApp> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (ctx) => const ImageUpload()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (ctx) => ImageUpload(
+                    metaMaskaddress: metaMaskaddress,
+                  )));
         });
       },
       child: Transform.rotate(

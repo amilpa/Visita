@@ -11,7 +11,8 @@ import 'package:http/http.dart' as http;
 import 'package:visita/ui/loading_cubit.dart';
 
 class ImageUpload extends StatefulWidget {
-  const ImageUpload({super.key});
+  String? metaMaskaddress;
+  ImageUpload({super.key, this.metaMaskaddress});
 
   @override
   State<ImageUpload> createState() => _ImageUploadState();
@@ -72,11 +73,39 @@ class _ImageUploadState extends State<ImageUpload> {
       request.fields['userURL'] = firebaseUser.photoURL!;
       var res = await request.send();
       final respStr = await res.stream.bytesToString();
-      print(respStr);
-      print(res.statusCode);
+      print(widget.metaMaskaddress);
+      if (widget.metaMaskaddress != null) {
+        MintNFT();
+      }
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<void> MintNFT() async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('https://api.verbwire.com/v1/nft/mint/quickMintFromFile'),
+    );
+    request.headers.addAll({
+      'X-API-Key': 'sk_live_9b032456-fb02-4ae3-928e-169e2f69e470',
+      'accept': 'application/json',
+      'content-type': 'multipart/form-data',
+    });
+    request.fields.addAll({
+      'allowPlatformToOperateToken': 'true',
+      'chain': 'mumbai',
+      'name': location.text,
+      'description': ' ',
+      'recipientAddress': '0x1c0e49bb411075bbfea5e954b6b870dc66b4c80f',
+    });
+    request.files.add(await http.MultipartFile.fromPath(
+      'filePath',
+      imageFile!.path,
+    ));
+    var response = await request.send();
+    print("Mint Response");
+    print(await response.stream.bytesToString());
   }
 
   Widget _buildImage() {
