@@ -1,31 +1,34 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class NearbyPlaceModel {
   final String image;
+  final String name;
+  final String location;
+  final String rating;
   NearbyPlaceModel({
     required this.image,
+    required this.name,
+    required this.location,
+    required this.rating,
   });
 }
 
 List<NearbyPlaceModel> nearbyPlaces = [
   NearbyPlaceModel(
-    image: "assets/places/place7.jpg",
+    image: "assets/nearbyplaces/kottaram.jpg",
+    name: "Ammachi Kottaram",
+    location: "Peermade,Kuttikkanam",
+    rating: "4.5",
   ),
   NearbyPlaceModel(
-    image: "assets/places/place6.jpg",
+    image: "assets/nearbyplaces/waterfalls.jpg",
+    name: " Valanjanganam Water Falls",
+    location: "Murinjapuzha",
+    rating: "4.2",
   ),
   NearbyPlaceModel(
-    image: "assets/places/place5.jpg",
-  ),
-  NearbyPlaceModel(
-    image: "assets/places/place4.jpg",
-  ),
-  NearbyPlaceModel(
-    image: "assets/places/place3.jpg",
-  ),
-  NearbyPlaceModel(
-    image: "assets/places/place2.jpg",
-  ),
-  NearbyPlaceModel(
-    image: "assets/places/place1.jpg",
+    image: "assets/nearbyplaces/pachalimedu.jpg",
+    name: "Panchalimedu ",
+    location: "Peermade,Mundakkayam",
+    rating: "4.6",
   ),
 ];

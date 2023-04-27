@@ -12,9 +12,9 @@ import 'package:visita/ui/auth/welcome/welcome_screen.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:visita/theme/colors.dart';
 import 'package:visita/pages/map_page.dart';
-// import 'package:travel_app/pages/profile_page.dart';
+import 'package:visita/pages/profile_page.dart';
 // import 'package:travel_app/pages/social_page.dart';
-// import 'package:travel_app/pages/home_page.dart';
+
 import 'dart:math' as math;
 
 import 'package:visita/pages/home_page.dart';
@@ -67,7 +67,7 @@ class _RootAppState extends State<RootApp> {
           child: Text("Upload"),
         ),
         GetHost(),
-        // ProfilePage()
+        ProfilePage()
       ],
     );
   }
@@ -145,7 +145,7 @@ class _RootAppState extends State<RootApp> {
                   onTap: () {
                     setState(() {
                       activeTab = 4;
-                      context.read<AuthenticationBloc>().add(LogoutEvent());
+                      // context.read<AuthenticationBloc>().add(LogoutEvent());
                     });
                   },
                   child: Icon(
