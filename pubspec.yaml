@@ -39,6 +39,25 @@ dependencies:
   flutter_icons_null_safety: ^1.1.0
   flutter_map: ^3.1.0
   geolocator: ^8.0.0
+  firebase_core: ^2.10.0
+  bloc: ^8.1.1
+  flutter_bloc: ^8.1.2
+  sn_progress_dialog: ^1.0.0-nullsafety.0
+  cached_network_image: ^3.2.3
+  firebase_auth: ^4.2.2
+  firebase_storage: ^11.1.1
+  cloud_firestore: ^4.5.2
+  smooth_page_indicator: ^1.1.0
+  image_picker: ^0.8.7+4
+  file_picker: ^5.2.11
+  url_launcher: ^6.1.10
+  shared_preferences: ^2.1.0
+  google_sign_in: ^6.1.0
+  flutter_facebook_auth: ^5.0.8
+  the_apple_sign_in: ^1.1.1
+  pull_to_refresh: ^2.0.0
+  ionicons: ^0.2.2
+  dio: ^5.1.1
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +84,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/images/
+    - assets/places/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

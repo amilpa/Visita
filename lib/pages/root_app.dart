@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visita/constants.dart';
+import 'package:visita/model/user.dart';
+import 'package:visita/pages/home_page.dart';
+import 'package:visita/pages/social_page.dart';
+import 'package:visita/pages/uploadImage.dart';
+import 'package:visita/services/helper.dart';
+import 'package:visita/ui/auth/authentication_bloc.dart';
+import 'package:visita/ui/auth/welcome/welcome_screen.dart';
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:visita/theme/colors.dart';
 import 'package:visita/pages/map_page.dart';
@@ -8,36 +17,55 @@ import 'package:visita/pages/map_page.dart';
 // import 'package:travel_app/pages/home_page.dart';
 import 'dart:math' as math;
 
+import 'package:visita/pages/home_page.dart';
+
 // import 'package:visita/theme/colors.dart';
 
 class RootApp extends StatefulWidget {
-  const RootApp({Key? key}) : super(key: key);
+  final User user;
+
+  const RootApp({Key? key, required this.user}) : super(key: key);
 
   @override
   _RootAppState createState() => _RootAppState();
 }
 
 class _RootAppState extends State<RootApp> {
+  late User user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+  }
+
   int activeTab = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: getFooter(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: getFloatingButton(),
-      body: getBody(),
+    return BlocListener<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        if (state.authState == AuthState.unauthenticated) {
+          pushAndRemoveUntil(context, const WelcomeScreen(), false);
+        }
+      },
+      child: Scaffold(
+        bottomNavigationBar: getFooter(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: getFloatingButton(),
+        body: getBody(),
+      ),
     );
   }
 
   Widget getBody() {
     return IndexedStack(
       index: activeTab,
-      children: [
-        // HomePage(),
-        // SocialPage(),
-        // Center(
-        //   child: Text("Upload"),
-        // ),
+      children: const [
+        HomePage(),
+        SocialPage(),
+        Center(
+          child: Text("Upload"),
+        ),
         GetHost(),
         // ProfilePage()
       ],
@@ -117,6 +145,7 @@ class _RootAppState extends State<RootApp> {
                   onTap: () {
                     setState(() {
                       activeTab = 4;
+                      context.read<AuthenticationBloc>().add(LogoutEvent());
                     });
                   },
                   child: Icon(
@@ -137,7 +166,8 @@ class _RootAppState extends State<RootApp> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          activeTab = 2;
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (ctx) => const ImageUpload()));
         });
       },
       child: Transform.rotate(

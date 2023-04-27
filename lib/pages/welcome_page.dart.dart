@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visita/pages/root_app.dart';
+import 'package:visita/ui/auth/welcome/welcome_screen.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -45,7 +46,7 @@ class WelcomePage extends StatelessWidget {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const RootApp(),
+                            builder: (context) => const WelcomeScreen(),
                           ),
                         );
                       },

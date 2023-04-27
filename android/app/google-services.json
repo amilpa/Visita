@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "926956837983",
+    "project_id": "visita-5c160",
+    "storage_bucket": "visita-5c160.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926956837983:android:56eb202c652c9b803a8fea",
+        "android_client_info": {
+          "package_name": "com.example.visita"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926956837983-58882s7tal3669qj3860rkamhs90srtl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.visita",
+            "certificate_hash": "fedb91d0b2451adaf319672530804a4d6f6e0fcc"
+          }
+        },
+        {
+          "client_id": "926956837983-htfosfp5sn33gsc4lmh609o160p5svfm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRgLG8Ux3azZ7G5w6k-KimC7F1_Iu7YzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926956837983-htfosfp5sn33gsc4lmh609o160p5svfm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
