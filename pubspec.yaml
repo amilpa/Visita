@@ -58,6 +58,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   ionicons: ^0.2.2
   dio: ^5.1.1
+  geocoder_buddy: ^1.0.1
 
 dev_dependencies:
   flutter_test:

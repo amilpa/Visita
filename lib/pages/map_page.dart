@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:geocoder_buddy/geocoder_buddy.dart';
 import "package:latlong2/latlong.dart";
 import 'package:flutter_map/flutter_map.dart'; // Suitable for most situations
 import 'package:flutter_map/plugin_api.dart'; // Only import if required functionality is not exposed by default
 import 'package:geolocator/geolocator.dart';
+import 'package:visita/constants.dart';
 import 'package:visita/pages/book_host.dart';
 import 'package:visita/pages/host_detail.dart';
+import 'package:visita/theme/colors.dart';
 
 class GetHost extends StatefulWidget {
   const GetHost({super.key});
@@ -19,16 +23,28 @@ class GetHost extends StatefulWidget {
 class _GetHostState extends State<GetHost> {
   bool servicestatus = false;
   bool haspermission = false;
+  MapController mapControl = MapController();
+  List<GBSearchData>? data;
   late LocationPermission permission;
   late Position position;
   LatLng? userLoc;
   Marker? userPoint;
+  int prevval = 0;
   late StreamSubscription<Position> positionStream;
+  TextEditingController query = TextEditingController();
 
   @override
   void initState() {
     getLatlong();
     super.initState();
+  }
+
+  getLocationSearch() async {
+    var data2 = await GeocoderBuddy.query(query.text);
+    // GBData data2 = await GeocoderBuddy.searchToGBData(data[0]);
+    setState(() {
+      data = data2;
+    });
   }
 
   getLatlong() async {
@@ -107,27 +123,97 @@ class _GetHostState extends State<GetHost> {
   Widget build(BuildContext context) {
     return userLoc == null
         ? const Center(child: CircularProgressIndicator())
-        : FlutterMap(
-            options: MapOptions(
-              center: userLoc,
-              zoom: 12,
+        : Stack(children: [
+            FlutterMap(
+              mapController: mapControl,
+              options: MapOptions(
+                center: userLoc,
+                zoom: 12,
+              ),
+              nonRotatedChildren: [
+                AttributionWidget.defaultWidget(
+                  source: 'OpenStreetMap contributors',
+                  onSourceTapped: null,
+                ),
+              ],
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.app',
+                ),
+                MarkerLayer(
+                  markers: [userPoint!],
+                )
+              ],
             ),
-            nonRotatedChildren: [
-              AttributionWidget.defaultWidget(
-                source: 'OpenStreetMap contributors',
-                onSourceTapped: null,
+            Container(
+                child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: MediaQuery.of(context).viewPadding.top + 20),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12)),
+                    padding: EdgeInsets.all(17),
+                    margin: EdgeInsets.all(10),
+                    child: TextField(
+                      onChanged: (value) {
+                        if (value.length < prevval) {
+                          return;
+                        }
+                        getLocationSearch();
+                      },
+                      controller: query,
+                      style: TextStyle(fontSize: 15),
+                      decoration:
+                          InputDecoration.collapsed(hintText: 'Enter location'),
+                    ),
+                  ),
+                  data == null
+                      ? Container()
+                      : Container(
+                          padding: EdgeInsets.all(5),
+                          margin: EdgeInsets.all(10),
+                          height: data!.length * 45,
+                          child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      userLoc = null;
+                                    });
+                                    setState(() {
+                                      query.text = '';
+
+                                      userLoc = LatLng(
+                                          double.parse(data![index].lat),
+                                          double.parse(data![index].lon));
+                                      mapControl.move(userLoc!, 12);
+                                      data = null;
+                                    });
+                                  },
+                                  child: Card(
+                                    elevation: 1,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      padding: EdgeInsets.all(17),
+                                      margin: EdgeInsets.all(12),
+                                      child: Text(data![index].displayName),
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: data!.length),
+                        )
+                ],
               ),
-            ],
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
-              ),
-              MarkerLayer(
-                markers: [userPoint!],
-              )
-            ],
-          );
+            )),
+          ]);
     ;
   }
 }
