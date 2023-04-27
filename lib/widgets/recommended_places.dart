@@ -50,8 +50,9 @@ class RecommendedPlaces extends StatelessWidget {
                         const SizedBox(height: 5),
                         Row(
                           children: [
-                            const Text(
-                              "St Regis Bora Bora",
+                            Text(
+                              //name of the tourist attraction
+                              recommendedPlaces[index].name,
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -80,8 +81,8 @@ class RecommendedPlaces extends StatelessWidget {
                               size: 16,
                             ),
                             const SizedBox(width: 5),
-                            const Text(
-                              "French Polynesia",
+                            Text(
+                              recommendedPlaces[index].location,
                               style: TextStyle(
                                 fontSize: 12,
                               ),

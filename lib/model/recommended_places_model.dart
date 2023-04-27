@@ -2,38 +2,41 @@
 class RecommendedPlaceModel {
   final String image;
   final double rating;
+  final String name;
   final String location;
   RecommendedPlaceModel({
     required this.image,
     required this.rating,
+    required this.name,
     required this.location,
   });
 }
 
 List<RecommendedPlaceModel> recommendedPlaces = [
   RecommendedPlaceModel(
-    image: "assets/places/place5.jpg",
+      image: "assets/Recomendations_Images/idukkidam.jpg",
+      rating: 4.4,
+      name: "Idukki Dam",
+      location: "Idukki"),
+  RecommendedPlaceModel(
+    image: "assets/Recomendations_Images/kumily.jpg",
     rating: 4.4,
-    location: "St. Regis Bora Bora",
-  ),
-    RecommendedPlaceModel(
-    image: "assets/places/place4.jpg",
-    rating: 4.4,
-    location: "St. Regis Bora Bora",
+    name: "Kumily",
+    location: "Idukki",
   ),
   RecommendedPlaceModel(
-    image: "assets/places/place3.jpg",
-    rating: 4.4,
-    location: "St. Regis Bora Bora",
-  ),
+      image: "assets/Recomendations_Images/wildlife.jpg",
+      rating: 4.4,
+      name: "Wildlife Sanctuary",
+      location: "Idukki"),
   RecommendedPlaceModel(
-    image: "assets/places/place2.jpg",
-    rating: 4.4,
-    location: "St. Regis Bora Bora",
-  ),
+      image: "assets/Recomendations_Images/illikkal.jpg",
+      rating: 4.4,
+      name: "Illikkal Kallu",
+      location: "Kottayam"),
   RecommendedPlaceModel(
-    image: "assets/places/place1.jpg",
-    rating: 4.4,
-    location: "St. Regis Bora Bora",
-  ),
+      image: "assets/Recomendations_Images/fortkochi.jpg",
+      rating: 4.4,
+      name: "Fort Kochi",
+      location: "Kochi"),
 ];

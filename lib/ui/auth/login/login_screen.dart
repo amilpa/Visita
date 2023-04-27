@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visita/constants.dart';
 import 'package:visita/pages/root_app.dart';
 import 'package:visita/services/helper.dart';
+import 'package:visita/theme/colors.dart';
 import 'package:visita/ui/auth/authentication_bloc.dart';
 import 'package:visita/ui/auth/login/login_bloc.dart';
 import 'package:visita/ui/auth/resetPasswordScreen/reset_password_screen.dart';
@@ -84,7 +85,7 @@ class _LoginScreen extends State<LoginScreen> {
                           alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: EdgeInsets.only(
-                                top: 32.0, right: 16.0, left: 16.0),
+                                top: 32.0, right: 16.0, left: 40.0),
                             child: Text(
                               'Sign In',
                               style: TextStyle(
@@ -149,7 +150,7 @@ class _LoginScreen extends State<LoginScreen> {
                                 child: const Text(
                                   'Forgot password?',
                                   style: TextStyle(
-                                      color: Colors.lightBlue,
+                                      color: Color(colorPrimary),
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,
                                       letterSpacing: 1),
@@ -213,7 +214,7 @@ class _LoginScreen extends State<LoginScreen> {
                                   color: Colors.white),
                             ),
                             icon: Image.asset(
-                              'assets/images/facebook_logo.png',
+                              'assets/images/google-logo.png',
                               color: Colors.white,
                               height: 24,
                               width: 24,
