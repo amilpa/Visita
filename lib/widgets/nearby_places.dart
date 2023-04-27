@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:visita/model/nearby_places_model.dart';
-import 'package:visita/pages/tourist_details.dart';
-import 'package:visita/widgets/distance.dart';
 
 class NearbyPlaces extends StatelessWidget {
   const NearbyPlaces({Key? key}) : super(key: key);
@@ -23,13 +21,13 @@ class NearbyPlaces extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(12),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TouristDetailsPage(
-                          image: nearbyPlaces[index].image,
-                        ),
-                      ));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => TouristDetailsPage(
+                  //         image: nearbyPlaces[index].image,
+                  //       ),
+                  //     ));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -49,17 +47,15 @@ class NearbyPlaces extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Sea of Peace",
+                            Text(
+                              nearbyPlaces[index].name,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Text("Portic Team"),
+                            Text(nearbyPlaces[index].location),
                             const SizedBox(height: 10),
-                            // DISTANCE WIDGET
-                            const Distance(),
                             const Spacer(),
                             Row(
                               children: [
@@ -68,29 +64,13 @@ class NearbyPlaces extends StatelessWidget {
                                   color: Colors.yellow.shade700,
                                   size: 14,
                                 ),
-                                const Text(
-                                  "4.5",
+                                Text(
+                                  nearbyPlaces[index].rating,
                                   style: TextStyle(
                                     fontSize: 12,
                                   ),
                                 ),
                                 const Spacer(),
-                                RichText(
-                                  text: TextSpan(
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      text: "\$22",
-                                      children: const [
-                                        TextSpan(
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black54,
-                                            ),
-                                            text: "/ Person")
-                                      ]),
-                                )
                               ],
                             )
                           ],

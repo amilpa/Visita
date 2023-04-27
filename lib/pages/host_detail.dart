@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:visita/widgets/distance.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:visita/model/recommended_places_model.dart';
 import 'package:visita/model/host_detail_Images.dart';

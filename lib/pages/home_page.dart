@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:visita/widgets/custom_icon_button.dart';
 import 'package:visita/widgets/location_card.dart';
 import 'package:visita/widgets/nearby_places.dart';
 import 'package:visita/widgets/recommended_places.dart';
 import 'package:visita/widgets/tourist_places.dart';
+
+//toast message
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,22 +31,11 @@ class HomePage extends StatelessWidget {
           children: [
             const Text("Good Morning"),
             Text(
-              "Tetteh Jeron Asiedu",
+              "Anish ",
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ],
         ),
-        actions: const [
-          CustomIconButton(
-            icon: Icon(Ionicons.search_outline),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 8.0, right: 12),
-            child: CustomIconButton(
-              icon: Icon(Ionicons.notifications_outline),
-            ),
-          ),
-        ],
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
@@ -66,7 +56,11 @@ class HomePage extends StatelessWidget {
                 "Recommendation",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              TextButton(onPressed: () {}, child: const Text("View All"))
+              TextButton(
+                  onPressed: () {
+                    //To Do
+                  },
+                  child: const Text("View All"))
             ],
           ),
           const SizedBox(height: 10),
@@ -79,7 +73,11 @@ class HomePage extends StatelessWidget {
                 "Nearby From You",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              TextButton(onPressed: () {}, child: const Text("View All"))
+              TextButton(
+                  onPressed: () {
+                    //To Do
+                  },
+                  child: const Text("View All"))
             ],
           ),
           const SizedBox(height: 10),
