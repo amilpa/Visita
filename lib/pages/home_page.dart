@@ -6,7 +6,6 @@ import 'package:visita/widgets/recommended_places.dart';
 import 'package:visita/widgets/tourist_places.dart';
 
 //toast message
-import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
