@@ -2,29 +2,29 @@ import 'package:flutter/material.dart';
 
 ///list of strings containing onBoarding titles
 final List<String> titlesList = [
-  'Flutter OnBoarding',
-  'Firebase Auth',
-  'Facebook Login',
-  'Instaflutter.com',
-  'Jump straight into the action',
+  'Visita',
+  'Visita',
+  'Visita',
+  'Visita',
+  'Visita',
 ];
 
 /// list of strings containing onBoarding subtitles, the small text under the
 /// title
 final List<String> subtitlesList = [
-  'Build your on-boarding flow in seconds',
-  'Use Firebase for user managements',
-  'Leverage Facebook to log in user easily',
-  'Get more awesome templates',
+  'Discover the true spirit of travel with our app',
+  'Connect with local hosts and experience the destination like a local',
+  'all while saving money on accommodations',
+  'Say goodbye to boring hotel rooms and hello to authentic local experiences',
   'Get Started'
 ];
 
 /// list containing image paths or IconData representing the image of each page
 
 final List<dynamic> imageList = [
-  Icons.developer_mode,
-  Icons.layers,
-  Icons.account_circle,
-  'assets/images/ic_launcher_round.png',
-  Icons.code
+  Icons.trip_origin,
+  Icons.hotel_sharp,
+  Icons.wallet,
+  Icons.money_sharp,
+  Icons.start,
 ];

@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_icons_null_safety/flutter_icons_null_safety.dart';
 import 'package:visita/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visita/ui/auth/authentication_bloc.dart';
 
 class ProfilePage extends StatefulWidget {
   Function setMetaAddress;
@@ -118,6 +120,17 @@ class _ProfilePageState extends State<ProfilePage> {
             const Text("Profile"),
           ],
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.read<AuthenticationBloc>().add(LogoutEvent());
+            },
+            icon: Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
 
       // appBar: PreferredSize(
