@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:visita/model/recommended_places_model.dart';
 import 'package:visita/pages/tourist_details.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RecommendedPlaces extends StatefulWidget {
   const RecommendedPlaces({Key? key}) : super(key: key);

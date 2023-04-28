@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -8,6 +9,7 @@ import "package:latlong2/latlong.dart";
 import 'package:flutter_map/flutter_map.dart'; // Suitable for most situations
 import 'package:flutter_map/plugin_api.dart'; // Only import if required functionality is not exposed by default
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 import 'package:visita/constants.dart';
 import 'package:visita/pages/book_host.dart';
 import 'package:visita/pages/host_detail.dart';
@@ -32,11 +34,42 @@ class _GetHostState extends State<GetHost> {
   int prevval = 0;
   late StreamSubscription<Position> positionStream;
   TextEditingController query = TextEditingController();
+  var mapData;
 
   @override
   void initState() {
     getLatlong();
+    getHosts();
     super.initState();
+  }
+
+  getHosts() async {
+    var res = await http
+        .get(Uri.parse("http://192.168.137.1:4567/api/v1/facilities/"));
+    print(res.body);
+    setState(() {
+      mapData = jsonDecode(res.body);
+      userPoint = Marker(
+          width: 120,
+          height: 120,
+          point: LatLng(double.parse(mapData[0]["lat"]),
+              double.parse(mapData[0]["long"])),
+          builder: (ctx) => GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (ctx) => HostDetail(
+                            mapData: mapData[0],
+                          )));
+                },
+                child: Column(children: [
+                  Icon(
+                    Icons.location_on,
+                    color: Colors.red,
+                  ),
+                  Text("HOST 1")
+                ]),
+              ));
+    });
   }
 
   getLocationSearch() async {
@@ -79,23 +112,27 @@ class _GetHostState extends State<GetHost> {
     print(position.longitude); //Output: 80.24599079
     print(position.latitude); //Output: 29.6593457
 
-    userPoint = Marker(
-        width: 120,
-        height: 120,
-        point: LatLng(position.latitude, position.longitude),
-        builder: (ctx) => GestureDetector(
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (ctx) => HostDetail()));
-              },
-              child: Column(children: [
-                Icon(
-                  Icons.location_on,
-                  color: Colors.red,
-                ),
-                Text("HOST 1")
-              ]),
-            ));
+    // userPoint = (mapData == null)
+    //     ? null
+    //     : Marker(
+    //         width: 120,
+    //         height: 120,
+    //         point: LatLng(mapData[0].lat, mapData[0].long),
+    //         builder: (ctx) => GestureDetector(
+    //               onTap: () {
+    //                 Navigator.of(context).push(MaterialPageRoute(
+    //                     builder: (ctx) => HostDetail(
+    //                           mapData: mapData,
+    //                         )));
+    //               },
+    //               child: Column(children: [
+    //                 Icon(
+    //                   Icons.location_on,
+    //                   color: Colors.red,
+    //                 ),
+    //                 Text("HOST 1")
+    //               ]),
+    //             ));
 
     setState(() {
       userLoc = LatLng(position.latitude, position.longitude);
@@ -121,7 +158,7 @@ class _GetHostState extends State<GetHost> {
 
   @override
   Widget build(BuildContext context) {
-    return userLoc == null
+    return userLoc == null || userPoint == null
         ? const Center(child: CircularProgressIndicator())
         : Stack(children: [
             FlutterMap(

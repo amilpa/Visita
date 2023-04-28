@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
@@ -5,7 +6,8 @@ import 'package:visita/model/recommended_places_model.dart';
 import 'package:visita/model/host_detail_Images.dart';
 
 class HostDetail extends StatelessWidget {
-  const HostDetail({super.key});
+  var mapData;
+  HostDetail({super.key, required this.mapData});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,8 @@ class HostDetail extends StatelessWidget {
                       borderRadius: const BorderRadius.vertical(
                           bottom: Radius.circular(20)),
                       image: DecorationImage(
-                        image: AssetImage("assets/Kuttikanam/House.jpg"),
+                        image: CachedNetworkImageProvider(
+                            "${mapData['imageURL']}"),
                         fit: BoxFit.cover,
                       ),
                       boxShadow: [
@@ -69,7 +72,7 @@ class HostDetail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      " Name of Accomodation",
+                      mapData["accommodation"],
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                     ),
@@ -118,13 +121,13 @@ class HostDetail extends StatelessWidget {
                   // Price
 
                   Text(
-                    "₹ Price",
+                    "₹ ${mapData["price"]}",
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 20),
 
                   Text(
-                    "Location : ",
+                    mapData["location"],
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                   ),
 
@@ -132,6 +135,7 @@ class HostDetail extends StatelessWidget {
 
                   Text(
                     "Facilities",
+                    // mapData["facilities"],
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                   ),
                   Padding(
@@ -140,17 +144,15 @@ class HostDetail extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Beds : 2"),
-                        Text("Bathroom : 1"),
-                        Text("Food : Veg & NonVeg "),
+                        Text(mapData["facility"] ?? "No facilities specified"),
                       ],
                     ),
                   ),
-                  Text("Host Name : Name ",
+                  Text("Host Name : ${mapData["hostName"]} ",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 10),
-                  Text("Contact : Contact Number",
+                  Text("Contact : ${mapData["phone"]}",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 15),
