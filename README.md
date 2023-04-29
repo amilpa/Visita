@@ -28,7 +28,7 @@ We hope you enjoy using the Travel Companion app and that it helps you create un
 
 1. Enter Login page and Login using Google Sign In , Email registration is under construction
 2. The User is presented with the home screen involving recommendations of places to visit
-3. On the bottom navigation tab , the user has 4 options : 
+3. On the bottom navigation tab , the user has 4 options :   
     a: *Home Screen*  
     b: *Social Media Page*: The users can post pictures of the places they visit using + icon on the bottom navigation bar, the   
          the posts are displayed in the social media page ,which can be refreshed by pull to refresh  
