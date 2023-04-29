@@ -49,7 +49,4 @@ Blockchain Implementation : If a user has connected their Metamask wallet to the
 *Backend api endpoints* 
 Made using expressjs and mongodb using mongoose package.
 <br>
-## Endpoints 
-- /user => see/register user
-- /posts => add/delete posts
-- /facilities => add/delete facilities
+API link - https://visita-api.onrender.com/
