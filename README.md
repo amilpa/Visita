@@ -47,6 +47,7 @@ Blockchain Implementation : If a user has connected their Metamask wallet to the
 *State management using Bloc* : https://bloclibrary.dev/  
 *Maps API - Fleaflet* : https://docs.fleaflet.dev/  
 *Backend api endpoints* 
+<br>
 Made using expressjs and mongodb using mongoose package.
 <br>
 API link - https://visita-api.onrender.com/
