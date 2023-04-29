@@ -29,20 +29,20 @@ We hope you enjoy using the Travel Companion app and that it helps you create un
 1. Enter Login page and Login using Google Sign In , Email registration is under construction
 2. The User is presented with the home screen involving recommendations of places to visit
 3. On the bottom navigation tab , the user has 4 options : 
-    a: *Home Screen*
-    b: *Social Media Page*: The users can post pictures of the places they visit using + icon on the bottom navigation bar, the 
-         the posts are displayed in the social media page ,which can be refreshed by pull to refresh
-    c: *Get a Host* : This section displays a Map, zoomed in at user's current location (Permission must be provided) , The        
-        map shows the list of hosts at user's current location as pins on map which can be tap on to display details of facility
-        offered by the Host , a book button is provided which is intended to book a stay ( Under construction )
-    d: *Profile* : Displays the profile of the user, along with posts made by the user on Social media ,This section also involves
-        Metamask connect button to enable blockchain services in the App
+    a: *Home Screen*  
+    b: *Social Media Page*: The users can post pictures of the places they visit using + icon on the bottom navigation bar, the   
+         the posts are displayed in the social media page ,which can be refreshed by pull to refresh  
+    c: *Get a Host* : This section displays a Map, zoomed in at user's current location (Permission must be provided) , 
+        The map shows the list of hosts at user's current location as pins on map which can be tap on to display details of facility  
+        offered by the Host , a book button is provided which is intended to book a stay ( Under construction )  
+    d: *Profile* : Displays the profile of the user, along with posts made by the user on Social media ,This section also involves  
+        Metamask connect button to enable blockchain services in the App    
         
-Blockchain Implementation : If a user has connected their Metamask wallet to the app, once the user posts a picture of the visited locations it gets minted as an NFT by default , this is implemented using the Verbwire API ( Linked below )
+Blockchain Implementation : If a user has connected their Metamask wallet to the app, once the user posts a picture of the visited locations it gets minted as an NFT by default , this is implemented using the Verbwire API ( Linked below )  
 
 ## APIs and Tools used:
 
-*Verbwire* : https://docs.verbwire.com/docs/verbwire-quickstart-guide
-*Flutter* : https://flutter.dev/
-*State management using Bloc* : https://bloclibrary.dev/
-*Maps API - Fleaflet* : https://docs.fleaflet.dev/
+*Verbwire* : https://docs.verbwire.com/docs/verbwire-quickstart-guide  
+*Flutter* : https://flutter.dev/  
+*State management using Bloc* : https://bloclibrary.dev/  
+*Maps API - Fleaflet* : https://docs.fleaflet.dev/  
